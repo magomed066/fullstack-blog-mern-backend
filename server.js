@@ -1,5 +1,6 @@
 import express from 'express'
 import authRoute from './routes/auth.js'
+import postRoute from './routes/post.js'
 import dotenv from 'dotenv'
 import colors from 'colors'
 import connectDB from './config/db.js'
@@ -16,6 +17,7 @@ app.get('/', async (req, res) => {
 })
 
 app.use('/auth', authRoute)
+app.use('/posts', postRoute)
 
 const PORT = process.env.PORT || 4444
 
