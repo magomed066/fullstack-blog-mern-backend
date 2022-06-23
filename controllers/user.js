@@ -1,4 +1,3 @@
-import { validationResult } from 'express-validator'
 import generateToken from '../helpers/generateToken.js'
 import User from '../models/User.js'
 
@@ -44,11 +43,6 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
 	try {
 		const { email, fullName, password, avatarUrl } = req.body
-		const errors = validationResult(req)
-
-		if (!errors.isEmpty()) {
-			return res.status(400).json(errors.array())
-		}
 
 		const doc = new User({
 			email,

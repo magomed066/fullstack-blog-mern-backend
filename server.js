@@ -1,6 +1,7 @@
 import express from 'express'
 import authRoute from './routes/auth.js'
 import postRoute from './routes/post.js'
+import uploadRoute from './routes/upload.js'
 import dotenv from 'dotenv'
 import colors from 'colors'
 import connectDB from './config/db.js'
@@ -11,6 +12,7 @@ connectDB()
 const app = express()
 
 app.use(express.json())
+app.use('/uploads', express.static('uploads'))
 
 app.get('/', async (req, res) => {
 	res.send('API is running!')
@@ -18,6 +20,7 @@ app.get('/', async (req, res) => {
 
 app.use('/auth', authRoute)
 app.use('/posts', postRoute)
+app.use('/upload', uploadRoute)
 
 const PORT = process.env.PORT || 4444
 
