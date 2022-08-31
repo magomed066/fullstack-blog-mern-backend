@@ -1,0 +1,43 @@
+@import '../../../sass/index.scss';
+
+.textfield {
+
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+
+    label {
+        font-size: 1.5rem;
+        color: $color-black;
+    }
+
+    input {
+        border: none;
+        width: 100%;
+
+        background: #EDEDF2;
+
+        padding: 1.3rem 2rem;
+        border-radius: 4px;
+        letter-spacing: .1rem;
+
+        &::placeholder {
+            color: $color-gray;
+        }
+    }
+
+    .error {
+        color: #842029;
+        background-color: #f8d7da;
+        border-color: #f5c2c7;
+
+        &::placeholder {
+            color: #842029;
+        }
+    }
+
+    .message__error {
+        color: #842029;
+        font-size: 1.2rem;
+    }
+}

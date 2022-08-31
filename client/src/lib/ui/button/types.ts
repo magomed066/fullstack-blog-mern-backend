@@ -5,5 +5,7 @@ export interface Props {
 	className?: string
 	style?: CSSProperties
 	children?: ReactNode
-	type?: 'primary' | 'danger' | 'outlined'
+	type?: 'button' | 'submit'
+	variant?: 'primary' | 'danger' | 'outlined'
+	disabled?: boolean
 }

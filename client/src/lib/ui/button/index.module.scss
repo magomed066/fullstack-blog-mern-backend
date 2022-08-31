@@ -26,6 +26,12 @@
     vertical-align: baseline;
     width: auto;
 
+
+    &:disabled {
+        opacity: 0.7;
+
+    }
+
     &:hover,
     &:focus {
         box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
