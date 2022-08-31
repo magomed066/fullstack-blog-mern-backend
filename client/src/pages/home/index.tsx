@@ -1,13 +1,15 @@
 import { PostsList, Tags } from '@/components'
 import { Alert } from '@/lib/ui'
-import { useGetPostsQuery } from '@/store/posts'
+import { useGetPostsQuery, useGetTagsQuery } from '@/store/posts'
 import { Post } from '@/types/posts'
 import styles from './index.module.scss'
 
 const Home = () => {
 	const { data, isLoading } = useGetPostsQuery('')
+	const { data: tags, isLoading: tagsLoading } = useGetTagsQuery('')
 
 	const res: Post[] = data?.data
+	const tagsData: string[] = tags?.data
 
 	return (
 		<div className={styles.home}>
@@ -17,7 +19,7 @@ const Home = () => {
 					<PostsList isLoading={isLoading} data={res} />
 				</div>
 				<div className={styles.sidebar}>
-					<Tags />
+					<Tags isLoading={tagsLoading} tags={tagsData} />
 				</div>
 			</div>
 

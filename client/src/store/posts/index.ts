@@ -7,6 +7,7 @@ const postsApi = createApi({
 	baseQuery: fetchBaseQuery({
 		baseUrl: ' http://localhost:4444',
 		prepareHeaders: (headers, { getState }) => {
+			//@ts-ignore
 			const token = (getState() as RootState).auth.token
 
 			if (token) {
@@ -21,9 +22,12 @@ const postsApi = createApi({
 		getPosts: builder.query<Post[], string>({
 			query: () => 'posts/all',
 		}),
+		getTags: builder.query<string[], string>({
+			query: () => 'posts/tags',
+		}),
 	}),
 })
 
-export const { useGetPostsQuery } = postsApi
+export const { useGetPostsQuery, useGetTagsQuery } = postsApi
 
 export default postsApi
