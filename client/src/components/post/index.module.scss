@@ -1,0 +1,48 @@
+@import '../../sass/index.scss';
+
+.post {
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    max-height: 30rem;
+    position: relative;
+
+    &-img {
+        width: 60%;
+
+        border-radius: 5px;
+        overflow: hidden;
+
+        &__item {
+            border-radius: 5px;
+        }
+    }
+
+    .meta {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    &__desc {
+        color: $color-gray;
+    }
+
+    &__icon {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        transition: all .2s;
+
+        &:hover {
+            transform: translateY(-.1rem);
+        }
+    }
+}

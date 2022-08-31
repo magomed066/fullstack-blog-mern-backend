@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+
+    outline: none;
+    text-decoration: none;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    background: #EDEDF2;
+    color: $color-black;
+}
+
+img {
+    width: 100%;
+}
+
+.container {
+    width: 140rem;
+    margin: 0 auto;
+}

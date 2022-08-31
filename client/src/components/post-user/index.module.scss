@@ -1,0 +1,29 @@
+@import '../../sass/index.scss';
+
+.user {
+    display: flex;
+    gap: 1rem;
+
+    &__img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+    }
+
+    &-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        &__name {
+            font-weight: 500;
+            color: $color-black;
+            font-size: 1.6rem;
+        }
+
+        &__date {
+            color: $color-gray;
+            font-size: 1.2rem;
+        }
+    }
+}
