@@ -1,15 +1,15 @@
 import { Alert } from '@/lib/ui'
-import { useAppSelector } from '@/store'
+import store, { useAppSelector } from '@/store'
 import { useEffect } from 'react'
 import { Navigate, Route, Routes, useNavigate } from 'react-router'
 import { publicRoutes, privateRoutes } from './routes'
 
 const Routing = () => {
-	const auth = useAppSelector((store) => store.auth.queries)
+	const { user } = useAppSelector((store) => store.auth)
 	const nav = useNavigate()
 
 	useEffect(() => {
-		if (!!!Object.values(auth).length) {
+		if (!user) {
 			nav('/', { replace: true })
 		}
 	}, [])
@@ -20,7 +20,7 @@ const Routing = () => {
 				<Route key={path} path={path} element={<Component />} />
 			))}
 
-			{!!Object.values(auth).length &&
+			{user &&
 				privateRoutes.map(({ path, Component }) => (
 					<Route key={path} path={path} element={<Component />} />
 				))}

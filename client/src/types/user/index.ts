@@ -3,6 +3,7 @@ export interface User {
 	email: string
 	fullName: string
 	avatarUrl: string
+	token: string
 }
 
 export type Login = Pick<User, 'email'> & { password: string }

@@ -3,6 +3,7 @@ export interface Props {
 	width?: number
 	height?: number
 	className?: string
+	fill?: string
 
 	onClick?: () => void
 }
