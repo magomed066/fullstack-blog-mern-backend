@@ -1,18 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { createApi } from '@reduxjs/toolkit/query'
-import { TypedUseSelectorHook, useSelector } from 'react-redux'
-import authApi from './auth'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import auth from './auth/auth-slice'
 import postsApi from './posts'
 
 const store = configureStore({
 	reducer: {
 		[postsApi.reducerPath]: postsApi.reducer,
-		[authApi.reducerPath]: authApi.reducer,
+		auth,
 	},
 })
 
-type Root = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>
+type Dispatch = typeof store.dispatch
 
-export const useAppSelector: TypedUseSelectorHook<Root> = useSelector
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
+export const useAppDispatch = () => useDispatch<Dispatch>()
 
 export default store
