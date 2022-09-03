@@ -1,0 +1,20 @@
+.card {
+    padding: 2rem;
+
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        & button {
+            margin-top: 1.5rem;
+            margin-left: auto;
+        }
+
+        .editor {
+            min-height: 60rem;
+            margin-top: 1rem;
+        }
+    }
+}

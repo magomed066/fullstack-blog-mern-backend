@@ -6,6 +6,6 @@ export interface Props {
 	style?: CSSProperties
 	children?: ReactNode
 	type?: 'button' | 'submit'
-	variant?: 'primary' | 'danger' | 'outlined'
+	variant?: 'primary' | 'danger' | 'outlined' | 'link'
 	disabled?: boolean
 }

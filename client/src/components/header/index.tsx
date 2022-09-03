@@ -31,7 +31,7 @@ const Header = () => {
 							</>
 						) : (
 							<>
-								<Button variant="primary">
+								<Button variant="primary" onClick={() => nav('/addPost')}>
 									<Icon fill="#fff" icon="pencil" width={20} height={20} />
 								</Button>
 								<Button variant="danger" onClick={handleLogout}>
