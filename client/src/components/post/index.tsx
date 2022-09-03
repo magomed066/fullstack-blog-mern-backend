@@ -1,11 +1,14 @@
 import { Card, Icon } from '@/lib/ui'
 import { FC } from 'react'
+import { useNavigate } from 'react-router'
 import PostUser from '../post-user'
 import styles from './index.module.scss'
 import { Props } from './types'
 
 const Post: FC<Props> = ({ post }) => {
-	const { imageUrl, title, text, user, createdAt } = post
+	const { _id, imageUrl, title, text, user, createdAt } = post
+
+	const nav = useNavigate()
 
 	const image = imageUrl.startsWith('upload')
 		? 'http://localhost:4444/' + imageUrl
@@ -26,6 +29,7 @@ const Post: FC<Props> = ({ post }) => {
 				<PostUser user={user} date={createdAt} />
 
 				<Icon
+					onClick={() => nav(`post:${_id}`)}
 					icon="arrow-right"
 					width={30}
 					height={30}

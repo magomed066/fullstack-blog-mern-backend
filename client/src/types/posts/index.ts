@@ -10,3 +10,5 @@ export interface Post {
 	imageUrl: string
 	createdAt: string
 }
+
+export type CreatePost = Pick<Post, 'title' | 'text' | 'imageUrl' | 'tags'>

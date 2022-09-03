@@ -1,0 +1,38 @@
+@import '../../sass/index.scss';
+
+.add {
+    padding-bottom: 3rem;
+
+    .header {
+        margin: 3rem 0;
+    }
+
+    &-image {
+        margin-bottom: 1.5rem;
+
+        &-actions {
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__link {
+        margin-bottom: 3re, ;
+        font-size: 1.7rem;
+
+        color: $color-black;
+
+        text-decoration: underline;
+    }
+
+    .input {
+        background: #fff;
+    }
+
+
+    & .preview {
+        width: 50%;
+        height: 40rem;
+
+        object-fit: cover;
+    }
+}

@@ -36,8 +36,6 @@ const Login = () => {
 				localStorage.setItem('user', JSON.stringify(res.data))
 				dispatch(setCredentials(res.data))
 				nav('/')
-
-				// return res
 			})
 			.catch((err) => {
 				open('error', err.data.message)
