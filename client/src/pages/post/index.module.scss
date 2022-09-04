@@ -37,5 +37,11 @@
         // margin-top: 1rem;
         color: rgb(29, 61, 138);
         margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    &-actions {
+        display: flex;
+        justify-content: flex-end;
     }
 }

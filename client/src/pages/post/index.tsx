@@ -1,16 +1,33 @@
-import { useGetPostByIdQuery } from '@/store/posts'
-import { Button, Card, Image, Spin } from 'antd'
+import { useDeletePostMutation, useGetPostByIdQuery } from '@/store/posts'
+import { Button, Card, Image, Popconfirm, Spin } from 'antd'
 import { useNavigate, useParams } from 'react-router'
 import styles from './index.module.scss'
 
 import ReactMarkdown from 'react-markdown'
+import { useState } from 'react'
+import { DeleteOutlined } from '@ant-design/icons'
 
 const PostDetails = () => {
 	const { id } = useParams()
 	const nav = useNavigate()
 	const { data, isLoading } = useGetPostByIdQuery(id || '')
+	const [loading, setLoading] = useState(false)
+	const [deletePost] = useDeletePostMutation()
 
 	const post = data?.data
+
+	const handleDeletePost = (id: string) => {
+		setLoading(true)
+
+		setTimeout(() => {
+			deletePost(id)
+				.unwrap()
+				.then(() => {
+					setLoading(false)
+					nav('/')
+				})
+		}, 500)
+	}
 
 	if (isLoading) {
 		return (
@@ -39,6 +56,20 @@ const PostDetails = () => {
 				</div>
 
 				<Card className={styles.right}>
+					<div className={styles['post-actions']}>
+						<Popconfirm
+							placement="bottom"
+							title={'Are you sure?'}
+							onConfirm={() => handleDeletePost(post?._id || '')}
+							okText="Yes"
+							cancelText="No"
+						>
+							<Button loading={loading} type="primary" danger>
+								<DeleteOutlined />
+							</Button>
+						</Popconfirm>
+					</div>
+
 					<h3 className={styles['post__title']}>{post?.title}</h3>
 
 					<ReactMarkdown children={post?.text || ''} />
