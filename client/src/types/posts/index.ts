@@ -12,3 +12,9 @@ export interface Post {
 }
 
 export type CreatePost = Pick<Post, 'title' | 'text' | 'imageUrl' | 'tags'>
+
+export type DeletePost = string
+
+export interface PostState {
+	posts: Post[]
+}

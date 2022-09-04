@@ -1,50 +1,75 @@
-import { Button, Card, Input } from '@/lib/ui'
-import { FC, useState } from 'react'
+import { FC, useMemo } from 'react'
 import styles from './index.module.scss'
 import { Props } from './types'
 
-import '@uiw/react-md-editor/markdown-editor.css'
-import '@uiw/react-markdown-preview/markdown.css'
+// import '@uiw/react-md-editor/markdown-editor.css'
+// import '@uiw/react-markdown-preview/markdown.css'
 
-import MDEditor from '@uiw/react-md-editor'
+// import MDEditor from '@uiw/react-md-editor'
+import { Button, Card, Form, Input } from 'antd'
+import { Post } from '@/types/posts'
 
-const AddPostForm: FC<Props> = ({
-	data,
-	handleChange,
-	handleSubmit,
-	setText,
-	text,
-}) => {
+import SimpleMdeReact from 'react-simplemde-editor'
+import 'easymde/dist/easymde.min.css'
+
+const AddPostForm: FC<Props> = ({ handleSubmit, setText, text, loading }) => {
+	const onFinish = (data: Pick<Post, 'title' | 'text'> & { tags: string }) => {
+		handleSubmit(data)
+	}
+
+	const options = useMemo(
+		() => ({
+			placeholder: 'Input text...',
+			autoFocus: true,
+			status: false,
+		}),
+		[],
+	)
+
 	return (
 		<Card className={styles.card}>
-			<form className={styles.form} onSubmit={handleSubmit}>
-				<Input
-					name="title"
+			<Form
+				className={styles.form}
+				name="basic"
+				layout="vertical"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 8 }}
+				initialValues={{ remember: true }}
+				onFinish={onFinish}
+				autoComplete="off"
+			>
+				<Form.Item
 					label="Title"
-					value={data.title}
-					onChange={handleChange}
-				/>
-				<Input
-					name="tags"
-					label="Tags"
-					value={data.tags}
-					onChange={handleChange}
-				/>
+					name="title"
+					rules={[{ required: true, message: 'Please input your title!' }]}
+				>
+					<Input />
+				</Form.Item>
 
-				<MDEditor
+				<Form.Item
+					label="Tags"
+					name="tags"
+					rules={[{ required: false, message: 'Please input your tags!' }]}
+				>
+					<Input />
+				</Form.Item>
+
+				<SimpleMdeReact value={text} onChange={setText} options={options} />
+
+				{/* <MDEditor
 					value={text}
-					onChange={(e) => {
-						if (e?.length) {
-							setText(e)
-						}
+					onChange={(e: any) => {
+						setText(e)
 					}}
 					className={styles.editor}
-				/>
+				/> */}
 
-				<Button variant="primary" type="submit">
-					Create
-				</Button>
-			</form>
+				<Form.Item>
+					<Button type="primary" htmlType="submit" loading={loading}>
+						Create
+					</Button>
+				</Form.Item>
+			</Form>
 		</Card>
 	)
 }

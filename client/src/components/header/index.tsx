@@ -1,48 +1,62 @@
-import { AlertContext } from '@/context/alert/context'
-import { Button, Icon } from '@/lib/ui'
 import { useAppSelector } from '@/store'
 import { logout } from '@/store/auth/auth-slice'
-import { useContext } from 'react'
+import { ExportOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Layout } from 'antd'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 import styles from './index.module.scss'
 
 const Header = () => {
+	const [loading, setLoading] = useState(false)
 	const nav = useNavigate()
 	const dispatch = useDispatch()
 	const { user } = useAppSelector((store) => store.auth)
 
-	const handleLogout = () => dispatch(logout())
+	const handleLogout = () => {
+		setLoading(true)
+
+		setTimeout(() => {
+			dispatch(logout())
+			setLoading(false)
+		}, 1000)
+	}
+
+	const goToLogin = () => nav('/login')
+	const goToAddPost = () => nav('/addPost')
 
 	return (
-		<header className={styles.header}>
-			<div className="container">
-				<div className={styles.wrap}>
-					<div className="logo" onClick={() => nav('/')}>
-						React Blog
-					</div>
-					<div className={styles['header-btns']}>
-						{!user ? (
-							<>
-								<Button variant="outlined" onClick={() => nav('/login')}>
-									Log In
-								</Button>
-								<Button variant="primary">Register</Button>
-							</>
-						) : (
-							<>
-								<Button variant="primary" onClick={() => nav('/addPost')}>
-									<Icon fill="#fff" icon="pencil" width={20} height={20} />
-								</Button>
-								<Button variant="danger" onClick={handleLogout}>
-									Log out
-								</Button>
-							</>
-						)}
-					</div>
+		<Layout>
+			<Layout.Header className={styles.header}>
+				<div className={styles['logo']} />
+
+				<div className={styles['btn-group']}>
+					{!user ? (
+						<>
+							<Button type="link" onClick={goToLogin}>
+								Log In
+							</Button>
+							<Button type="primary">Register</Button>
+						</>
+					) : (
+						<>
+							<Button type="primary" onClick={goToAddPost}>
+								<PlusOutlined />
+							</Button>
+							<Button
+								loading={loading}
+								danger
+								type="primary"
+								onClick={handleLogout}
+							>
+								Logout
+								<ExportOutlined />
+							</Button>
+						</>
+					)}
 				</div>
-			</div>
-		</header>
+			</Layout.Header>
+		</Layout>
 	)
 }
 

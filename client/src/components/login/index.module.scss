@@ -8,6 +8,19 @@
     padding: 2rem;
 
 
+    .lock {
+        width: 5rem;
+        height: 5rem;
+        background: rgb(174, 174, 174);
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+    }
 
     .form {
         display: flex;

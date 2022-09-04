@@ -1,138 +1,81 @@
-import { AddPostForm } from '@/components'
+import { AddPostForm, UploadImage } from '@/components'
 import { AlertContext } from '@/context/alert/context'
-import { Button, Input, Spinner, UploadBtn } from '@/lib/ui'
-import { useCreatePostMutation, useUploadMutation } from '@/store/posts'
-import axios from 'axios'
-import { ChangeEvent, FormEvent, useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useAppSelector } from '@/store'
+import { useCreatePostMutation } from '@/store/posts'
+import { setPosts } from '@/store/posts/post-slice'
+import { Post } from '@/types/posts'
+import { useContext, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import useNotify from '@/hooks/useNotify'
 import styles from './index.module.scss'
+import { Button, Divider } from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 
 const AddPost = () => {
-	const [createPost, { isLoading }] = useCreatePostMutation()
-	const [upload, { isLoading: previewLoading }] = useUploadMutation()
+	const [createPost] = useCreatePostMutation()
+	const posts = useAppSelector((store) => store.posts.posts)
+	const dispatch = useDispatch()
 	const { open } = useContext(AlertContext)
 	const nav = useNavigate()
-	const [data, setData] = useState({
-		title: '',
-		tags: '',
-		imageUrl: '',
-	})
+	const [image, setImage] = useState('')
 	const [text, setText] = useState<string>('')
+	const [loading, setLoading] = useState(false)
 
-	const handleImageUpload = (e: Event) => {
-		const el = e.currentTarget as HTMLInputElement
-		const file = el.files?.[0]
-
-		const formData = new FormData()
-
-		if (file) {
-			formData.append('image', file)
-
-			upload(formData)
-				.unwrap()
-				.then((res) => {
-					setData((prev) => ({
-						...prev,
-						imageUrl: res.url,
-					}))
-				})
-				.catch((err) => {
-					open('error', err.data.message)
-				})
-		}
-	}
-
-	const handleDeletePreview = () => {
-		setData((prev) => ({ ...prev, imageUrl: '' }))
-	}
-
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setData((prev) => ({
-			...prev,
-			[e.target.name]: e.target.value,
-		}))
-	}
-
-	const checkValidData = (obj: typeof data): boolean => {
-		let emptyValues = 0
-
-		Object.values(obj).forEach((item) => {
-			if (!item.length) {
-				emptyValues++
-			}
-		})
-
-		return emptyValues > 0 ? false : true
-	}
-
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault()
-
-		if (!checkValidData(data)) {
-			open('error', 'Input all fields')
-			return
-		}
-
+	const handleSubmit = (
+		data: Pick<Post, 'title' | 'text'> & { tags: string },
+	) => {
 		if (!text.length) {
-			open('error', 'Input text')
-
+			useNotify({
+				type: 'error',
+				message: 'Input text',
+				duration: 2,
+			})
 			return
 		}
 
 		const transformedData = {
 			...data,
 			text,
+			imageUrl: image,
 			tags: data.tags.split(','),
 		}
 
-		createPost(transformedData)
-			.unwrap()
-			.then((res) => {
-				setTimeout(() => nav('/'), 200)
-			})
-			.catch((err) => {
-				open('error', err.data.message)
-			})
-	}
+		setLoading(true)
 
-	if (isLoading || previewLoading) {
-		return <Spinner />
+		setTimeout(() => {
+			createPost(transformedData)
+				.unwrap()
+				.then((res) => {
+					dispatch(setPosts([...posts, res.data]))
+
+					nav('/', { replace: true })
+				})
+				.catch((err) => {
+					open('error', err.data.message)
+				})
+		}, 400)
 	}
 
 	return (
 		<div className={styles.add}>
 			<div className={styles.header}>
-				<Link to={'/'} className={styles['add__link']}>
-					Back
-				</Link>
+				<Button type="default" onClick={() => nav('/')}>
+					<ArrowLeftOutlined /> Back
+				</Button>
 			</div>
+			<Divider />
 
 			<div className={styles.content}>
 				<div className={styles['add-image']}>
-					<div className={styles['add-image-actions']}>
-						{!data.imageUrl ? (
-							<UploadBtn onChange={handleImageUpload} />
-						) : (
-							<Button variant="danger" onClick={handleDeletePreview}>
-								Delete
-							</Button>
-						)}
-					</div>
-
-					{data.imageUrl && (
-						<img
-							className={styles.preview}
-							src={`http://localhost:4444/${data.imageUrl}`}
-						/>
-					)}
+					<UploadImage setImage={setImage} />
 				</div>
 
 				<AddPostForm
-					handleChange={handleChange}
 					handleSubmit={handleSubmit}
-					data={data}
 					text={text}
 					setText={setText}
+					loading={loading}
 				/>
 			</div>
 		</div>

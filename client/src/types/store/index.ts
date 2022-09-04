@@ -13,5 +13,15 @@ export interface AuthResponse {
 
 export interface CreatePostResponse {
 	success: boolean
-	data: Post[]
+	data: Post
+}
+
+export interface DeletePostResponse {
+	success: boolean
+	message: string
+}
+
+export interface GetPostByIdResponse {
+	success: boolean
+	data: Post
 }
