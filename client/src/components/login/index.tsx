@@ -1,95 +1,57 @@
-import { Button, Card, Icon, Input } from '@/lib/ui'
 import { Login } from '@/types/user'
-import React, { ChangeEvent, FC, useState } from 'react'
-import { Link } from 'react-router-dom'
-
+import { UserOutlined } from '@ant-design/icons'
+import { Button, Card, Form, Input } from 'antd'
+import { FC } from 'react'
+import { useNavigate } from 'react-router'
 import styles from './index.module.scss'
 import { Props } from './types'
 
-const LoginForm: FC<Props> = ({ login }) => {
-	const [data, setData] = useState<Login>({
-		email: '',
-		password: '',
-	})
+const LoginForm: FC<Props> = ({ login, isLoading }) => {
+	const nav = useNavigate()
 
-	const [emailError, setEmailError] = useState({
-		message: '',
-	})
-	const [passError, setPassError] = useState({
-		message: '',
-	})
-
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setData((prev) => ({
-			...prev,
-			[e.target.name]: e.target.value,
-		}))
-
-		handleValidatePass()
-		handleValidateEmail()
-	}
-
-	const handleValidateEmail = () => {
-		data.email.length
-			? setEmailError((prev) => ({ ...prev, message: 'Input an Email' }))
-			: setEmailError((prev) => ({ ...prev, message: '' }))
-
-		!data.email.includes('@')
-			? setEmailError((prev) => ({ ...prev, message: 'Not correct Email' }))
-			: setEmailError((prev) => ({ ...prev, message: '' }))
-	}
-
-	const handleValidatePass = () => {
-		data.password.length < 5
-			? setPassError((prev) => ({
-					...prev,
-					message: 'Password has to be at least 5 symbols',
-			  }))
-			: setPassError((prev) => ({ ...prev, message: '' }))
-	}
-
-	const submitHandler = (e: React.FormEvent) => {
-		e.preventDefault()
+	const submitHandler = (data: Login) => {
 		login(data)
 	}
 
+	const goToRegister = () => nav('/register')
+
 	return (
 		<Card className={styles.login}>
-			<form className={styles.form} onSubmit={submitHandler}>
-				<Input
+			<Form
+				name="basic"
+				layout="vertical"
+				initialValues={{ remember: true }}
+				onFinish={submitHandler}
+				autoComplete="off"
+			>
+				<div className={styles.lock}>
+					<UserOutlined />
+				</div>
+				<Form.Item
 					label="Email"
 					name="email"
-					value={data.email}
-					placeholder="Input your Email"
-					status={emailError.message ? 'error' : undefined}
-					errorMessage={emailError.message}
-					onChange={handleChange}
-					onBlur={handleValidateEmail}
-				/>
-				<Input
+					rules={[{ required: true, message: 'Please input your Email!' }]}
+				>
+					<Input />
+				</Form.Item>
+
+				<Form.Item
 					label="Password"
 					name="password"
-					type="password"
-					value={data.password}
-					placeholder="Input your password"
-					status={passError.message ? 'error' : undefined}
-					errorMessage={passError.message}
-					onChange={handleChange}
-					onBlur={handleValidatePass}
-				/>
-
-				<Button
-					type="submit"
-					variant="primary"
-					disabled={emailError.message || passError.message ? true : false}
+					rules={[{ required: true, message: 'Please input your password!' }]}
 				>
-					Log In
-				</Button>
+					<Input.Password />
+				</Form.Item>
 
-				<Link to="/register" className={styles.link}>
-					Don't have an account?
-				</Link>
-			</form>
+				<Form.Item>
+					<Button type="primary" htmlType="submit" loading={isLoading}>
+						Log in
+					</Button>
+					<Button type="link" onClick={goToRegister}>
+						Don't have an account?
+					</Button>
+				</Form.Item>
+			</Form>
 		</Card>
 	)
 }

@@ -7,7 +7,7 @@ import Profile from './profile'
 export const publicRoutes = [
 	{ path: '/', Component: Home },
 	{ path: '/login', Component: Login },
-	{ path: '/post:id', Component: PostDetails },
+	{ path: '/post/:id', Component: PostDetails },
 ]
 
 export const privateRoutes = [

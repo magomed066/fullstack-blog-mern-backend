@@ -1,18 +1,38 @@
+// .header {
+//     padding: 20px 0;
+//     background: #fff;
+//     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+//     .wrap {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//     }
+
+//     &-btns {
+//         display: flex;
+//         align-items: center;
+//         gap: 10px;
+//     }
+
+// }
+
 .header {
-    padding: 20px 0;
-    background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    .wrap {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    .logo {
+        float: left;
+        width: 120px;
+        height: 31px;
+        margin: 16px 24px 16px 0;
+        background: rgba(255, 255, 255, 0.3);
     }
 
-    &-btns {
+    .btn-group {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 1rem
     }
-
 }
